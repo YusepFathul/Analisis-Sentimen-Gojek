@@ -1,96 +1,96 @@
-# Analisis Sentimen Ulasan Aplikasi Gojek
+# Gojek App Review Sentiment Analysis
 
-## 📌 Ringkasan Proyek
-Proyek ini bertujuan untuk membangun model *machine learning* yang dapat mengklasifikasikan sentimen (positif, negatif, netral) dari ulasan pengguna aplikasi Gojek di Google Play Store. Dengan menggunakan algoritma **Multinomial Naive Bayes** dan teknik pra-pemrosesan teks yang komprehensif, model ini dikembangkan untuk memahami persepsi publik terhadap layanan Gojek.
+## 📌 Project Summary
+This project aims to build a *machine learning* model capable of classifying sentiment (positive, negative, neutral) from Gojek app user reviews on the Google Play Store. Using the **Multinomial Naive Bayes** algorithm and comprehensive text preprocessing techniques, this model was developed to understand public perception of Gojek's services.
 
-Meskipun model mencapai akurasi keseluruhan sebesar **79.7%**, analisis yang lebih dalam menunjukkan bahwa performa model sangat tidak seimbang. Temuan paling krusial dari proyek ini adalah bahwa model sangat andal dalam mendeteksi ulasan negatif, namun hampir sepenuhnya gagal mengidentifikasi ulasan netral dan positif.
+Although the model achieved an overall accuracy of **79.7%**, a deeper analysis reveals that its performance is highly imbalanced. The most crucial finding of this project is that the model is very reliable at detecting negative reviews but almost completely fails to identify neutral and positive reviews.
 
-🔗 **[Lihat Kode Lengkap di Repositori GitHub](https://github.com/YusepFathul/Analisis-Sentimen-Gojek)**
-
----
-
-## 🎯 Tujuan Proyek
-- **Pra-pemrosesan Data Teks:** Membersihkan, menormalisasi, dan mengubah data ulasan mentah menjadi format yang siap dianalisis.
-- **Pembangunan Model:** Membangun model klasifikasi sentimen menggunakan Multinomial Naive Bayes dengan penanganan data tidak seimbang (imbalance).
-- **Evaluasi Kritis:** Menganalisis kinerja model secara mendalam menggunakan metrik seperti *Precision, Recall, F1-score,* dan *Confusion Matrix*, tidak hanya bergantung pada akurasi.
-- **Identifikasi Tantangan:** Mengidentifikasi kelemahan model dan tantangan yang muncul dari karakteristik dataset yang digunakan.
+🔗 **[View Complete Code on GitHub](https://github.com/YusepFathul/Analisis-Sentimen-Gojek)**
 
 ---
 
-## 🧰 Teknologi & Library yang Digunakan
-- **Lingkungan Kerja:** Google Colaboratory
-- **Library Utama:**
+## 🎯 Project Objectives
+- **Text Data Preprocessing:** To clean, normalize, and transform raw user review data into an analysis-ready format.
+- **Model Development:** To build a sentiment classification model using Multinomial Naive Bayes, including handling of imbalanced data.
+- **Critical Evaluation:** To thoroughly analyze the model's performance using metrics like *Precision, Recall, F1-score,* and the *Confusion Matrix*, not just relying on accuracy.
+- **Challenge Identification:** To identify the model's weaknesses and the challenges arising from the dataset's characteristics.
+
+---
+
+## 🧰 Technologies & Libraries Used
+- **Workspace:** Google Colaboratory
+- **Core Libraries:**
   - **`Python`**
-  - **`Pandas`** & **`NumPy`**: Untuk manipulasi dan pembersihan data.
-  - **`Scikit-learn`**: Untuk TF-IDF Vectorizer, model Naive Bayes, dan metrik evaluasi.
-  - **`Imbalanced-learn`**: Untuk teknik over-sampling SMOTE.
-  - **`Stanza`**: Untuk proses tokenisasi teks bahasa Indonesia.
-  - **`Matplotlib`** & **`Seaborn`**: Untuk visualisasi data.
+  - **`Pandas`** & **`NumPy`**: For data manipulation and cleaning.
+  - **`Scikit-learn`**: For TF-IDF Vectorizer, Naive Bayes model, and evaluation metrics.
+  - **`Imbalanced-learn`**: For the SMOTE over-sampling technique.
+  - **`Stanza`**: For tokenization of Indonesian text.
+  - **`Matplotlib`** & **`Seaborn`**: For data visualization.
 
 ---
 
-## 🛠️ Metodologi Proyek
+## 🛠️ Project Methodology
 
-1.  **Pengumpulan & Pembersihan Data:**
-    - **Sumber:** Dataset ulasan aplikasi Gojek dari Kaggle.
-    - **Pembersihan:** Menghapus kolom yang tidak relevan dan semua baris data yang kosong (NaN), yang mengurangi dataset dari 445,500 menjadi 90,559 baris.
-    - **Sampling:** Mengambil sampel acak sebanyak 10,000 data untuk efisiensi komputasi.
+1.  **Data Collection & Cleaning:**
+    - **Source:** Gojek app review dataset from Kaggle.
+    - **Cleaning:** Removed irrelevant columns and all rows with empty (NaN) values, which reduced the dataset from 445,500 to 90,559 rows.
+    - **Sampling:** Took a random sample of 10,000 data points for computational efficiency.
 
-2.  **Pra-pemrosesan Teks (Text Preprocessing):**
-    - **Normalisasi:** Mengubah teks menjadi huruf kecil dan menghapus karakter non-alfabet.
-    - **Tokenisasi:** Memecah kalimat menjadi kata-kata (tokens) menggunakan library **Stanza** yang dirancang untuk linguistik bahasa Indonesia.
+2.  **Text Preprocessing:**
+    - **Normalization:** Converted text to lowercase and removed non-alphabetic characters.
+    - **Tokenization:** Split sentences into words (tokens) using the **Stanza** library, which is designed for Indonesian linguistics.
 
-3.  **Pelabelan Sentimen:**
-    Sentimen ditentukan secara otomatis berdasarkan rating bintang (`score`):
-    - **Negatif**: Skor < 3 (⭐ & ⭐⭐)
-    - **Netral**: Skor = 3 (⭐⭐⭐)
-    - **Positif**: Skor > 3 (⭐⭐⭐⭐ & ⭐⭐⭐⭐⭐)
+3.  **Sentiment Labeling:**
+    Sentiment was automatically determined based on the star rating (`score`):
+    - **Negative**: Score < 3 (⭐ & ⭐⭐)
+    - **Neutral**: Score = 3 (⭐⭐⭐)
+    - **Positive**: Score > 3 (⭐⭐⭐⭐ & ⭐⭐⭐⭐⭐)
 
-4.  **Pemodelan Machine Learning:**
-    - **Ekstraksi Fitur:** Mengubah teks menjadi vektor numerik menggunakan **TF-IDF Vectorizer**, dengan mempertimbangkan kata tunggal dan frasa dua kata (*bigram*).
-    - **Penanganan Imbalance:** Menerapkan **SMOTE** (*Synthetic Minority Over-sampling Technique*) pada data latih untuk menyeimbangkan jumlah data di setiap kelas sentimen.
-    - **Algoritma:** Menggunakan model **Multinomial Naive Bayes** untuk klasifikasi.
-
----
-
-## 📈 Hasil dan Analisis
-
-### Distribusi Sentimen
-Visualisasi data menunjukkan dataset sampel sangat tidak seimbang dan didominasi oleh sentimen negatif.
-- **Negatif**: 83.5%
-- **Netral**: 13.4%
-- **Positif**: 3.1%
-
-*Insight: Mayoritas pengguna dalam sampel ini memberikan ulasan dengan nada negatif, yang menandakan adanya isu signifikan yang perlu diperhatikan.*
-
-### Performa Model
-Meskipun akurasi keseluruhan **79.7%**, angka ini menyesatkan. Analisis lebih dalam melalui *Classification Report* dan *Confusion Matrix* menunjukkan:
-
-- **Sangat Andal untuk Sentimen Negatif:** Model mampu mendeteksi ulasan negatif dengan sangat baik (**F1-score 0.90**).
-- **Sangat Buruk untuk Sentimen Netral & Positif:** Model hampir tidak memiliki kemampuan untuk mengidentifikasi ulasan netral (**F1-score 0.11**) dan positif (**F1-score 0.17**).
-- **Kesimpulan Matriks Kebingungan:** Model cenderung "bermain aman" dengan memprediksi mayoritas ulasan sebagai negatif. Sebagian besar ulasan netral dan positif salah diklasifikasikan sebagai negatif.
+4.  **Machine Learning Modeling:**
+    - **Feature Extraction:** Converted text into numerical vectors using **TF-IDF Vectorizer**, considering both single words and two-word phrases (*bigrams*).
+    - **Handling Imbalance:** Applied **SMOTE** (*Synthetic Minority Over-sampling Technique*) on the training data to balance the number of samples in each sentiment class.
+    - **Algorithm:** Used the **Multinomial Naive Bayes** model for classification.
 
 ---
 
-## 💡 Kesimpulan dan Insight Utama
+## 📈 Results and Analysis
 
-1.  **Dominasi Sentimen Negatif:** Ulasan aplikasi Gojek dalam dataset ini secara signifikan didominasi oleh keluhan dan kritik.
-2.  **Model yang Bias:** Model Naive Bayes yang dibangun sangat bias terhadap kelas mayoritas (negatif). Akurasi tinggi yang ditampilkan hanyalah ilusi yang menutupi ketidakmampuannya mengenali kelas lain.
-3.  **Tidak Efektif untuk Umpan Balik Positif:** Model ini tidak dapat diandalkan untuk menyaring ulasan positif atau netral, sehingga membatasi kegunaannya untuk memahami kelebihan produk atau area perbaikan spesifik.
-4.  **Tantangan Data Tidak Seimbang:** Teknik SMOTE terbukti tidak cukup untuk mengatasi masalah ketidakseimbangan data yang ekstrem pada kasus ini.
+### Sentiment Distribution
+Data visualization shows the sample dataset is highly imbalanced and dominated by negative sentiment.
+- **Negative**: 83.5%
+- **Neutral**: 13.4%
+- **Positive**: 3.1%
+
+*Insight: The majority of users in this sample provided reviews with a negative tone, indicating significant issues that need attention.*
+
+### Model Performance
+Although the overall accuracy is **79.7%**, this figure is misleading. A deeper analysis through the *Classification Report* and *Confusion Matrix* shows:
+
+- **Excellent for Negative Sentiment:** The model is very good at detecting negative reviews (**F1-score of 0.90**).
+- **Very Poor for Neutral & Positive Sentiment:** The model has almost no ability to identify neutral reviews (**F1-score of 0.11**) or positive reviews (**F1-score of 0.17**).
+- **Conclusion from Confusion Matrix:** The model tends to "play it safe" by predicting the majority class (negative). Most neutral and positive reviews were incorrectly classified as negative.
 
 ---
 
-## Tantangan dan Potensi Peningkatan
-- **Tantangan Utama:** Ketidakseimbangan kelas yang ekstrem dan potensi bias yang timbul dari proses pembersihan data (menghapus ribuan baris NaN).
-- **Potensi Peningkatan:**
-  - Menggunakan teknik sampling yang lebih canggih (misalnya, kombinasi SMOTE dan Edited Nearest Neighbours).
-  - Mencoba algoritma lain yang lebih tangguh terhadap data tidak seimbang, seperti **SVM** atau **XGBoost**.
-  - Melakukan pengumpulan data tambahan, terutama untuk ulasan positif dan netral, untuk menciptakan dataset yang lebih representatif.
+## 💡 Conclusion and Key Insights
+
+1.  **Dominance of Negative Sentiment:** Reviews for the Gojek app in this dataset are significantly dominated by complaints and criticism.
+2.  **Biased Model:** The developed Naive Bayes model is heavily biased towards the majority class (negative). The high accuracy is merely an illusion that masks its inability to recognize other classes.
+3.  **Ineffective for Positive Feedback:** This model cannot be relied upon to filter for positive or neutral reviews, limiting its usefulness for understanding product strengths or specific areas for improvement.
+4.  **Imbalanced Data Challenge:** The SMOTE technique proved insufficient to overcome the extreme data imbalance in this case.
+
+---
+
+## Challenges and Potential Improvements
+- **Key Challenges:** Extreme class imbalance and potential bias introduced during data cleaning (removing thousands of NaN rows).
+- **Potential Improvements:**
+  - Using more advanced sampling techniques (e.g., a combination of SMOTE and Edited Nearest Neighbours).
+  - Trying other algorithms that are more robust to imbalanced data, such as **SVM** or **XGBoost**.
+  - Collecting additional data, especially for positive and neutral reviews, to create a more representative dataset.
 
 ---
 
 ## 👤 Contact
 - **Name:** Yusep Fathul Anwar
-- **LinkedIn:** [https://linkedin.com/in/your-username](https://linkedin.com/in/your-username)](https://www.linkedin.com/in/yusepfathulanwar/
-- **Github:** https://github.com/YusepFathul
+- **LinkedIn:** [https://www.linkedin.com/in/yusepfathulanwar/](https://www.linkedin.com/in/yusepfathulanwar/)
+- **Github:** [https://github.com/YusepFathul](https://github.com/YusepFathul)
